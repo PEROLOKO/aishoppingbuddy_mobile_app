@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const ItemDetails = ({route}) => {
 
@@ -14,7 +14,7 @@ const ItemDetails = ({route}) => {
     const data = item.data;
 
     return (
-        <View style={style.window}>
+        <ScrollView style={style.window} contentContainerStyle={{ alignItems: 'center', padding:20 }}>
             <View style={style.card}>
                 <Text style={style.text}>ID: {id}</Text>
                 <Text style={[style.title,style.titleSize]}>{titulo}</Text>
@@ -43,13 +43,13 @@ const ItemDetails = ({route}) => {
                     <Text style={style.text}>{data[2]}/{data[1]}/{data[0]}</Text>
                 </View>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
 const style = StyleSheet.create({
     window:{
-        alignItems:"center"
+        height:"100%",
     },
     title: {
         color:"#000",

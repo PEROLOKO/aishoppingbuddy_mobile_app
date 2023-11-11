@@ -10,7 +10,7 @@ import Usuario from './Screens/Usuario';
 import CadastroUsuario from './Screens/Usuario/CadastroUsuario';
 import CadastroProduto from './Screens/Produto/CadastroProduto';
 import Produto from './Screens/Produto';
-import CadastroRecomendacao from './Screens/CadastrarRecomendação';
+import CadastroRecomendacao from './Screens/CadastrarRecomendacao';
 
 const Stack = createNativeStackNavigator();
 

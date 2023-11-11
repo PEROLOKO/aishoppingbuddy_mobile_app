@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Alert, FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LinearGradient from "react-native-linear-gradient";
+import Spinner from "react-native-loading-spinner-overlay";
 
 
 const ListProduto = ({route}) => {
@@ -16,6 +17,9 @@ const ListProduto = ({route}) => {
     
     const [lista, setLista] = useState([]);
     const [busca, setBusca] = useState("");
+
+    const [loading, setLoading] = useState(false);
+    const [loadTxt, setLoadTxt] = useState("Loading...");
     
     const fetchList = async () => {
         const token = await AsyncStorage.getItem("token");
@@ -55,6 +59,7 @@ const ListProduto = ({route}) => {
             produtoList: produtoList
         }
         console.log(credential);
+        setLoading(true);
         try {
             const token = await AsyncStorage.getItem("token");
             const response = await axios.request({
@@ -66,6 +71,7 @@ const ListProduto = ({route}) => {
                 data: credential
             });
             console.log(response);
+            setLoading(false);
             createAlert("Cadastro realizado com sucesso!");
             navigation.navigate("recomendacao");
         } catch (error) {
@@ -86,6 +92,11 @@ const ListProduto = ({route}) => {
 
     return (
         <View>
+            <Spinner
+                visible={loading}
+                textContent={loadTxt}
+                textStyle={style.title}
+            />
             <Image style={style.bg0} source={require('../../Assets/bg0.png')} />
             <Image style={style.bg1} source={require('../../Assets/bg1.png')} />
             <Image style={style.bg2} source={require('../../Assets/bg2.png')} />

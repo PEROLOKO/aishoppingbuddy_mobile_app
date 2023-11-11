@@ -23,7 +23,7 @@ const ItemDetails = ({route}) => {
                     </View>
                 </View>
                 <View style={styleProduto.text}>
-                    <Text style={style.title}>ID de {nome}</Text>
+                    <Text style={style.title}>ID de {nome.split(' ')[0]}</Text>
                     <Text style={style.text}>{id}</Text>
                 </View>
             </View>

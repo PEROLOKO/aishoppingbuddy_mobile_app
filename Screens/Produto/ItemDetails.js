@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const ItemDetails = ({route}) => {
 
@@ -14,7 +14,7 @@ const ItemDetails = ({route}) => {
     const tipo = item.tipo;
 
     return (
-        <View style={style.window}>
+        <ScrollView style={style.window} contentContainerStyle={{ alignItems: 'center', padding:20 }}>
             <View style={styleProduto.card}>
                 <View style={styleProduto.imageFrame}>
                     <View style={[styleProduto.image, style.usuario]}>
@@ -35,6 +35,12 @@ const ItemDetails = ({route}) => {
                 <View style={styleProduto.text}>
                     <Text style={style.title}>Nome do Produto</Text>
                     <Text style={style.text}>{nome}</Text>
+                </View>
+            </View>
+            <View style={styleProduto.card}>
+                <View style={styleProduto.text}>
+                    <Text style={style.title}>Descrição</Text>
+                    <Text style={[style.text,style.textDesc]}>{descricao}</Text>
                 </View>
             </View>
             <View style={styleProduto.card}>
@@ -61,17 +67,6 @@ const ItemDetails = ({route}) => {
             </View>
             <View style={styleProduto.card}>
                 <View style={styleProduto.imageFrame}>
-                    <View style={[styleProduto.image, style.usuario]}>
-                        <Image style={styleProduto.imageIcon} source={require('../../Assets/iconID.png')} />
-                    </View>
-                </View>
-                <View style={styleProduto.text}>
-                    <Text style={style.title}>Descrição</Text>
-                    <Text style={style.text}>{descricao}</Text>
-                </View>
-            </View>
-            <View style={styleProduto.card}>
-                <View style={styleProduto.imageFrame}>
                     <View style={[styleProduto.image, style.data]}>
                         <Image style={styleProduto.imageIcon} source={require('../../Assets/iconPrice.png')} />
                     </View>
@@ -81,13 +76,14 @@ const ItemDetails = ({route}) => {
                     <Text style={style.text}>R$ {valor}</Text>
                 </View>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
 const style = StyleSheet.create({
     window:{
-        alignItems:"center"
+        backgroundColor:"#FFF",
+        height:"100%",
     },
     title: {
         color:"#000",
@@ -98,6 +94,9 @@ const style = StyleSheet.create({
     text: {
         color:"#777",
         fontSize:18,
+    },
+    textDesc:{
+        width:320,
     },
     card: {
         backgroundColor:"#FFF",
@@ -121,7 +120,6 @@ const style = StyleSheet.create({
 const styleProduto = StyleSheet.create({
     card:{
         backgroundColor:"#FFF",
-        height:80,
         width:360,
         borderRadius:10,
         flexDirection:"row",
@@ -129,16 +127,18 @@ const styleProduto = StyleSheet.create({
         marginTop:10,
         marginBottom:5,
         borderWidth:2,
-        borderColor:"#DDD"
+        borderColor:"#DDD",
     },
     text: {
         marginLeft:16,
-        flexDirection:"column"
+        flexDirection:"column",
+        width:270,
+        marginVertical:10,
     },
     imageFrame:{
         backgroundColor:"#DDD",
         width:80,
-        height:80,
+        paddingVertical:10,
         justifyContent:"center",
         alignItems:"center",
         borderBottomLeftRadius:10,
