@@ -18,7 +18,6 @@ const Cadastro = (props) => {
             senha: senha
         }
         console.log(credential)
-        console.log(`http://10.0.2.2:8080/aishoppingbuddy/api/funcionario/cadastrar/${idParceiro}`)
         try {
             const response = await axios.post(
                 `http://10.0.2.2:8080/aishoppingbuddy/api/funcionario/cadastrar/${idParceiro}`,

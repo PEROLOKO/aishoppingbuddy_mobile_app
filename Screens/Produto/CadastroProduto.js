@@ -26,14 +26,11 @@ const CadastroProduto = (props) => {
 
         try {
             const token = await AsyncStorage.getItem("token");
-            const response = await axios.request({
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                method: "POST",
-                url: `http://10.0.2.2:8080/aishoppingbuddy/api/produto`,
-                data: credential
-            });
+            const response = await axios.post(
+                `http://10.0.2.2:8080/aishoppingbuddy/api/produto`,
+                credential,
+                {headers: {Authorization: `Bearer ${token}`}}
+            );
             console.log(response);
             createAlert("Cadastro realizado com sucesso!");
             navigation.navigate("home");

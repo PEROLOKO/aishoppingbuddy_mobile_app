@@ -3,7 +3,7 @@ import { Home } from './Screens/Home';
 
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { Image, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import Recomendacao from './Screens/Recomendacao';
 import Acesso from './Screens/Acesso';
 import Usuario from './Screens/Usuario';
@@ -11,13 +11,28 @@ import CadastroUsuario from './Screens/Usuario/CadastroUsuario';
 import CadastroProduto from './Screens/Produto/CadastroProduto';
 import Produto from './Screens/Produto';
 import CadastroRecomendacao from './Screens/CadastrarRecomendacao';
+import Icon from "react-native-vector-icons/Feather";
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
 const Logo = () => {
+
+  const navigation = useNavigation();
+
+  const logout = async () => {
+    await AsyncStorage.setItem("token","");
+    navigation.replace('acesso');
+  }
+
   return (
-      <View style={{ flex: 1, alignItems: 'center'}}>
-          <Image style={{width:175, height:25, marginLeft:-50}} source={require('./Assets/logo_title.png')} />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent:'space-between', flexDirection:'row'}}>
+        <View/>
+        <Image style={{width:175, height:25, marginLeft:0}} source={require('./Assets/logo_title.png')} />
+        <TouchableOpacity style={{marginRight:30}} onPress={logout}>
+          <Icon name="log-out" size={24} color={"#888"}/>
+        </TouchableOpacity>
       </View>
   )
 }

@@ -25,7 +25,7 @@ const Login = (props) => {
             try {
                 await AsyncStorage.setItem("token",response.data.token);
                 console.log(await AsyncStorage.getItem("token"));
-                navigation.navigate("home");
+                navigation.replace("home");
             } catch (error) {
                 console.log(error);
             }
