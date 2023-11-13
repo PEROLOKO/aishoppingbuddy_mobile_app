@@ -3,22 +3,22 @@ import React, { useEffect, useState } from "react";
 import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import ListItem from "./ListItem";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Icon from "react-native-vector-icons/Feather";
 
 const List = ({ navigation }) => {
 
     const [lista, setLista] = useState([]);
     const [busca, setBusca] = useState("");
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
     
     const fetchList = async () => {
         const token = await AsyncStorage.getItem("token");
-        await axios.request({
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            method: "GET",
-            url: `http://10.0.2.2:8080/aishoppingbuddy/api/recomendacao`
-        }).then(response => {
+        console.log(`http://10.0.2.2:8080/aishoppingbuddy/api/recomendacao?page=${page}`);
+        await axios.get(`http://10.0.2.2:8080/aishoppingbuddy/api/recomendacao?page=${page}`,
+        {headers: {Authorization: `Bearer ${token}`}}).then(response => {
             setLista(response.data.content);
+            setTotalPages(response.data.totalPages);
         });
     }
 
@@ -29,20 +29,30 @@ const List = ({ navigation }) => {
         } else {
             console.log("buscando:"+busca)
             const token = await AsyncStorage.getItem("token");
-            await axios.request({
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                method: "GET",
-                url: `http://10.0.2.2:8080/aishoppingbuddy/api/recomendacao/busca/${busca}`
-            }).then(response => {
+            await axios.get(`http://10.0.2.2:8080/aishoppingbuddy/api/recomendacao/busca/${busca}?page=${page}`,
+            {headers: {Authorization: `Bearer ${token}`}}).then(response => {
                 setLista(response.data.content);
+                setTotalPages(response.data.totalPages);
             });
         }
     }
 
+    const nextPage = async () => {
+        if(page+1 <= totalPages-1) {
+            setPage(antes => antes+1);
+            fetchListSearch();
+        }
+    }
+
+    const prevPage = async () => {
+        if(0 <= page-1) {
+            setPage(antes => antes-1);
+            fetchListSearch();
+        }
+    }
+
     useEffect(() => {
-        fetchList();
+        fetchListSearch();
     }, []);
 
     return (
@@ -68,6 +78,11 @@ const List = ({ navigation }) => {
                 renderItem={props => <ListItem navigation={navigation} {...props} />}
                 keyExtractor={item => item.id}
             />
+            <View style={style.page}>
+                <TouchableOpacity onPress={prevPage}><Icon name="arrow-left" size={24} color={"#000"}/></TouchableOpacity>
+                    <Text style={style.number}>{page}</Text>
+                <TouchableOpacity onPress={nextPage}><Icon name="arrow-right" size={24} color={"#000"}/></TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -147,8 +162,18 @@ const style = StyleSheet.create({
         height:30,
     },
     flatList:{
-        height:540,
+        height:500,
     },
+    page:{
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"center",
+    },
+    number:{
+        color:"#000",
+        fontSize:20,
+        marginHorizontal:40,
+    }
 });
 
 export {List};

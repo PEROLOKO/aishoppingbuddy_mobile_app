@@ -62,13 +62,10 @@ const ListProduto = ({route}) => {
         setLoading(true);
         try {
             const token = await AsyncStorage.getItem("token");
-            const response = await axios.request({
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                method: "POST",
-                url: `http://10.0.2.2:8080/aishoppingbuddy/api/recomendacao/${usuario.id}`,
-                data: credential
+            const response = await axios.post(
+                `http://10.0.2.2:8080/aishoppingbuddy/api/recomendacao/${usuario.id}`,
+                credential,
+                {headers: {Authorization: `Bearer ${token}`},
             });
             console.log(response);
             setLoading(false);
@@ -95,7 +92,7 @@ const ListProduto = ({route}) => {
             <Spinner
                 visible={loading}
                 textContent={loadTxt}
-                textStyle={style.title}
+                textStyle={style.titleButton}
             />
             <Image style={style.bg0} source={require('../../Assets/bg0.png')} />
             <Image style={style.bg1} source={require('../../Assets/bg1.png')} />

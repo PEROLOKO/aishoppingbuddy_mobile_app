@@ -10,13 +10,8 @@ const ListUsuario = ({ navigation }) => {
     
     const fetchList = async () => {
         const token = await AsyncStorage.getItem("token");
-        await axios.request({
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            method: "GET",
-            url: `http://10.0.2.2:8080/aishoppingbuddy/api/usuario`
-        }).then(response => {
+        await axios.get(`http://10.0.2.2:8080/aishoppingbuddy/api/usuario`,
+        {headers: {Authorization: `Bearer ${token}`}}).then(response => {
             console.log(response.data);
             setLista(response.data.content);
         });
@@ -29,13 +24,8 @@ const ListUsuario = ({ navigation }) => {
         } else {
             console.log("buscando:"+busca)
             const token = await AsyncStorage.getItem("token");
-            await axios.request({
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                method: "GET",
-                url: `http://10.0.2.2:8080/aishoppingbuddy/api/usuario/nome/${busca}`
-            }).then(response => {
+            await axios.get(`http://10.0.2.2:8080/aishoppingbuddy/api/usuario/nome/${busca}`,
+            {headers: {Authorization: `Bearer ${token}`}}).then(response => {
                 setLista(response.data.content);
             });
         }
